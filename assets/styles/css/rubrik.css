@@ -1,0 +1,34 @@
+body {
+    background: rgb(37, 37, 37);
+    color: #ffffff; /* Белый текст для контраста */
+}
+
+.cardRubrik {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(161, 161, 161, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Ширина карточки на 100% родителя */
+    max-width: 500px; /* Ограничиваем максимальную ширину */
+}
+
+.cardRubrik:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    width: 100%;
+    object-fit: cover;
+    height: 200px; /* Установка высоты изображения */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.card-text>a{
+    color: white;
+    
+}

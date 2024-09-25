@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PostController!{% endblock %}
+
+{% block body %}
+{% for posts in posts %}
+    <div class="video-background-container">
+        <video autoplay muted loop id="background-video">
+            <p>ffffffffffff</p>
+            <source src="{{ asset('divers/videos/font.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+<!-- Контент -->
+<div class="container-fluid overlay-cards">
+    <div class="row">
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{path ('posts_by_rubrik', {id: 1})}}" class="card-link">
+                <div class="card">
+                    <h3>Cartes graphiques</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/carte-graphique.png') }}" class="card-img-top" alt="Carte graphique"/>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{ path('posts_by_rubrik', {id: 2}) }}" class="card-link">
+                <div class="card">
+                    <h3>Carte mère</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/carte-mere.png') }}" class="card-img-top" alt="Carte mère"/>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{ path('posts_by_rubrik', {id: 3}) }}" class="card-link">
+                <div class="card">
+                    <h3>CPU</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/tour-cpu.png') }}" class="card-img-top" alt="Tour CPU"/>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{ path('posts_by_rubrik', {id: 4}) }}" class="card-link">
+                <div class="card">
+                    <h3>Stockage</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/ssd.png') }}" class="card-img-top" alt="SSD"/>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{ path('posts_by_rubrik', {id: 5}) }}" class="card-link">
+                <div class="card">
+                    <h3>Mémoire</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/ram.png') }}" class="card-img-top" alt="RAM"/>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{{ path('posts_by_rubrik', {id: 6}) }}" class="card-link">
+                <div class="card">
+                    <h3>Alimentation PC</h3>
+                    <img class="img-rubrik" src="{{ asset('divers/images/bloc-dalimentation.png') }}" class="card-img-top" alt="Bloc d'alimentation"/>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>    
+<div class="content-overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-2">
+                <!-- Левый контент -->
+            </div>
+            <div class="col-12 col-md-8">
+                <!-- Посты -->
+                <h2>{{ posts.title }}</h2>
+
+                {% if (posts.photo is empty) %}
+                                                
+                                                
+                {% else %}
+
+                    <img class="my-3  img-fluid" src="{{asset('divers/images/' ~ posts.photo)}}" alt="Mon image"/>
+                                                
+                {% endif %}
+                <div>
+                    {{ posts.content|raw }}
+                </div>
+                {% if (posts.video is empty) %}
+                    {% else %}
+                    <iframe width="100%" height="315" 
+                        src="https://www.youtube.com/embed/{{ posts.video|split('?v=')[1] }}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                {% endif %}
+                <div class="mt-4">
+                    {{ posts.content1|raw }}
+                </div>
+                {% if (posts.image is empty) %}
+                {% else %}
+                <div>
+                     <img class="my-3  img-fluid" src="{{asset('divers/images/' ~ posts.benchmark)}}" alt="Mon image"/>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}

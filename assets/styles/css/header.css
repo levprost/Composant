@@ -1,0 +1,16 @@
+.roundedImage{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+a.loggouts{
+    color:white;
+    text-decoration: none;
+}
+
+a.loggouts:hover{
+    color:white;
+}
+.header{
+    z-index: 2;
+}

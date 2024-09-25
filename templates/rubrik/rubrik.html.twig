@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Rubrik {% endblock %}
+
+{% block body %}
+<div class="container">
+    
+    <h1 class="my-5" style="text-align:center;">{{rubrik.name|capitalize}}</h1>
+    
+    <div class="row g-4"> <!-- Убираем row-cols для точной настройки размера через CSS -->
+        {% for posts in post %}
+        <div class="col-12 col-md-6 d-flex justify-content-center"> <!-- Делаем 2 карточки на линии для экранов md и выше -->
+            <div class="cardRubrik border-success border-3 cardRubrik">
+                <img src="{{ asset('divers/images/' ~ posts.photo) }}" alt="Product Image" class="card-img-top rounded-top">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ posts.title }}</h5>      
+                </div>
+            </div>
+        </div>      
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

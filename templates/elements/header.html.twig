@@ -1,0 +1,72 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-black">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ path('app_post') }}" style="color:white;">Composants</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ path('app_post') }}" style="color:white;"><i class="fa fa-home" aria-hidden="true"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="color:white;">Actualité</a>
+        </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white;">
+            Rubriques
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 1})}}">Cartes graphiques</a></li>
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 2})}}">Carte mère</a></li>
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 3})}}">CPU</a></li>
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 4})}}">Stockage</a></li>
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 5})}}">Mémoire</a></li>
+            <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 6})}}">Alimentation PC</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="header-social-links">
+        {% if app.user %}
+          {% if app.user.opption is same as ('yes') %}
+              {% if app.user.avatar is empty %}
+                <i class="fa-solid fa-circle-user" style="color: white"></i>
+                <span class="zxfirstname" style="text-decoration:none;">{{ app.user.psuedo|capitalize }}</span>
+                <a class="loggouts mr-2" href="{{ path('app_logout') }}">
+                  <i class="fa solid fa-power-off" style="color: white"></i>
+                </a>
+                <a class="zxadmin mr-2" href="{{ path('admin') }}">
+                  <i class="fa fa-circle-play" style="color: white"></i>
+                </a>
+                {% else %}
+                <img class="roundedImage" src="{{ asset('divers/avatars/' ~ app.user.avatar) }}" style="width:25px; height:25px; border-radius:50%">&ensp;
+                <span class="zxfirstname">{{ app.user.psuedo|capitalize }}</span>
+                <a class="loggouts" href="{{ path('app_logout') }}">&ensp;<i class="fa-solid fa-power-off" style="color: white"></i></a>
+                <a class="zxadmin mr-2" href="{{ path('admin') }}">
+                  <i class="fa fa-circle-play" style="color: white"></i>
+                </a>
+              {% endif %}
+          {% else %}
+            {% if app.user.avatar is empty %}
+                <i class="fa-solid fa-circle-user" style="color: white"></i>
+                <span class="zxfirstname" style="text-decoration:none;">{{ app.user.psuedo|capitalize }}</span>
+                <a class="loggouts mr-2" href="{{ path('app_logout') }}">
+                  <i class="fa solid fa-power-off" style="color: white"></i>
+                </a>
+              {% else %}
+                <img class="roundedImage" src="{{ asset('divers/avatars/' ~ app.user.avatar) }}" style="width:25px; height:25px; border-radius:50%">&ensp;
+                <span class="zxfirstname">{{ app.user.psuedo|capitalize }}</span>
+                <a class="loggouts" href="{{ path('app_logout') }}">&ensp;<i class="fa-solid fa-power-off" style="color: white"></i></a>
+            {% endif %}
+          {% endif %}
+        {% else %}
+            <a class="login" href="{{ path('app_login') }}">
+              <i class="fa-regular fa-circle-user" style="color: white"></i>&ensp;
+            </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

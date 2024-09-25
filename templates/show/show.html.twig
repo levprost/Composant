@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Show {% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <!-- Основной контент -->
+                <div class="col-lg-10 col-md-12">
+                    <div class="row">
+                        <!-- Название рубрики -->
+                        <div class="col-12 my-3">
+                            <h1>{{ post.rubrik.name|capitalize }}</h1>
+                        </div>
+
+                        <!-- Дата создания -->
+                        <div class="col-12 my-3">
+                            {{ post.createdAt|date('D d M Y') }}
+                        </div>
+
+                        <!-- Аватар пользователя и его информация -->
+                        <div class="col-12 my-3 d-flex align-items-center">
+                            <img class="roundedImage img-fluid me-3" src="{{ asset('divers/avatars/' ~ post.user.avatar) }}" alt="Avatar" style="width: 50px; height: 50px;"/>
+                            <span>{{ post.user.psuedo|capitalize }}</span> &emsp;
+                            <span>{{ post.user.city }}</span>
+                        </div>
+
+                        <!-- Заголовок поста -->
+                        <div class="col-12 my-3">
+                            <h2>{{ post.title }}</h2>
+                        </div>
+
+                        <!-- Фото поста -->
+                        <div class="col-12 my-3">
+                            {% if post.photo is not empty %}
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.photo) }}" alt="Mon image"/>
+                            {% endif %}
+                        </div>
+
+                        <!-- Контент поста -->
+                        <div class="col-12 my-3">
+                            <div class="mb-4">
+                                <h2>{{ post.content|raw }}</h2>
+                            </div>
+                        </div>
+
+                        <!-- Дополнительное изображение -->
+                        <div class="col-12 my-3">
+                            {% if post.image is not empty %}
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.image) }}" alt="Mon image"/>
+                            {% endif %}
+                        </div>
+
+                        <!-- Дополнительный контент -->
+                        <div class="col-12 my-3">
+                            {% if post.content1 is not empty %}
+                                <div class="mb-4">
+                                    <h2>{{ post.content1|raw }}</h2>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Видео -->
+                        <div class="col-12 my-3">
+                            {% if post.video is not empty %}
+                                <div class="ratio ratio-16x9">
+                                    <iframe width="100%" height="500px" 
+                                            src="https://www.youtube.com/embed/{{ post.video|split('?v=')[1] }}" 
+                                            frameborder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowfullscreen></iframe>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Бенчмарк -->
+                        <div class="col-12 my-3">
+                            {% if post.benchmark is not empty %}
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="benchmark"/>
+                            {% endif %}
+                        </div>
+
+                        <!-- Дополнительный контент -->
+                        <div class="col-12 my-3">
+                            {% if post.content2 is not empty %}
+                                <div class="mb-4">
+                                    <h2>{{ post.content2|raw }}</h2>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Блок с другими постами (перемещён) -->
+                        <div class="col-12 my-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3 class="mb-3">Aussi dans  {{ post.rubrik.name|capitalize }}</h3>
+                                </div>
+                                <div class="row m-2 p-2" style="border-bottom: solid 2px;">
+                                    {% for posts2 in posts2 %}
+                                        <div class="col-5 m-4 p-3 related-post-card">
+                                            <a href="{{ path('show', {id: posts2.id}) }}">
+                                                <h5>{{ posts2.title }}</h5>
+                                            </a>
+                                            <a href="{{ path('show', {id: posts2.id}) }}">
+                                                <img class="img-fluid my-3 d-flex imgPosts2" src="{{ asset('divers/images/' ~ posts2.photo) }}" alt="Mon image"/>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Комментарии -->
+                        <div class="col-12 my-3">
+                            {% if post.comments|length < 1 %}
+                                <p>Il n'y a pas encore de commentaires pour ce post. Soyez le premier à commenter...</p>
+                            {% else %}
+                                <p>{{ post.comments|length }} Commentaire(s)</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Форма добавления комментария -->
+                        <div class="col-12 mb-5">
+                            {% if app.user %}
+                                <div id="comment-form-container" style="display: block;">
+                                    {{ form_start(comment_form) }}
+                                    {{ form_widget(comment_form.content) }}
+                                    {{ form_errors(comment_form.content) }}
+                                    {{ form_widget(comment_form.save) }}
+                                    {{ form_end(comment_form) }}
+                                </div>
+                            {% else %}
+                                <p><a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un commentaire.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Отображение комментариев -->
+                        <div class="col-12">
+                            
+                            <div id="comments-container" style="display: block;">
+                                {% for comment in comments %}
+                                    <div class="comment mb-4 p-3 rounded shadow-sm">
+                                        <div class="row">
+                                            <div class="col-2 col-md-1 d-flex align-items-center">
+                                                <img class="img-fluid rounded-circle imgkx" src="{{ asset('divers/avatars/' ~ comment.user.avatar) }}" alt="avatar"/>
+                                            </div>
+                                            <div class="col-8 col-md-9 d-flex align-items-center">
+                                                <strong class="userName">{{ comment.user.psuedo|capitalize }}</strong>
+                                                <span class="text-muted ms-3">{{ comment.createdAt|date('H:i') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-2 comment-content">
+                                            <p>{{ comment.content|capitalize }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div> <!-- Закрытие row -->
+                </div> <!-- Закрытие col-lg-8 -->
+            </div> <!-- Закрытие row -->
+        </div> <!-- Закрытие container -->
+    </div>
+
+    <script>
+        document.getElementById('toggle-comment-form').addEventListener('click', function() {
+            var formContainer = document.getElementById('comment-form-container');
+            formContainer.style.display = formContainer.style.display === 'none' || formContainer.style.display === '' ? 'block' : 'none';
+        });
+
+        document.getElementById('toggle-comments').addEventListener('click', function() {
+            var commentsContainer = document.getElementById('comments-container');
+            commentsContainer.style.display = commentsContainer.style.display === 'none' || commentsContainer.style.display === '' ? 'block' : 'none';
+        });
+    </script>
+{% endblock %}
