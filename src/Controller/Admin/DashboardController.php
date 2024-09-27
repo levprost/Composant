@@ -52,9 +52,9 @@ class DashboardController extends AbstractDashboardController
 
         if($this->isGranted('ROLE_EDITOR')){
             yield MenuItem::section('Posts');
-            yield MenuItem::subMenu('posts','fa-sharp fa-solid fa-blog')->setSubItems([
+            yield MenuItem::subMenu('Creation de posts','fa-sharp fa-solid fa-blog')->setSubItems([
                 MenuItem::linkToCrud('Create Posts', 'fas fa-newspaper', Post::class)->setAction(Crud::PAGE_NEW),
-                MenuItem::linkToCrud('Show Posts', 'fas fa-eye', Post::class)
+                
             ]);
         }
         if($this->isGranted('ROLE_MODO')){
@@ -66,6 +66,10 @@ class DashboardController extends AbstractDashboardController
         }
 
         if($this->isGranted('ROLE_ADMIN')){
+            yield MenuItem::section('Editions de Posts');
+            yield MenuItem::subMenu('posts','fa-sharp fa-solid fa-blog')->setSubItems([
+                MenuItem::linkToCrud('Show Posts', 'fas fa-eye', Post::class)
+            ]); 
             yield MenuItem::section('Rubrik');
             yield MenuItem::submenu('Rubriks','fa-solid-book-open-reader')->setSubItems([
                 MenuItem::linkToCrud('Create Rubrik','fas fa-newspaper', Rubrik::class)->setAction(Crud::PAGE_NEW),

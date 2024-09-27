@@ -96,9 +96,9 @@
                                 <div class="col-12">
                                     <h3 class="mb-3">Aussi dans  {{ post.rubrik.name|capitalize }}</h3>
                                 </div>
-                                <div class="row m-2 p-2" style="border-bottom: solid 2px;">
+                                <div class="row m-2 p-2" style="border-bottom: solid 2px; justify-content:center;">
                                     {% for posts2 in posts2 %}
-                                        <div class="col-5 m-4 p-3 related-post-card">
+                                        <div class="col-md-5 col-sm-10 m-4 p-3 related-post-card">
                                             <a href="{{ path('show', {id: posts2.id}) }}">
                                                 <h5>{{ posts2.title }}</h5>
                                             </a>

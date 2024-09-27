@@ -28,7 +28,8 @@ body {
     flex-direction: column;
     height: 100%;
 }
-.card-text>a{
-    color: white;
-    
+
+a{
+    text-decoration: none;
+    color: #ffffff;
 }
