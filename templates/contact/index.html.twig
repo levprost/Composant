@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez nous{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Contactez nous</h1>
+        
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(contactForm) }}
+            {{ form_row(contactForm.title) }}
+            {{ form_row(contactForm.sujet) }}
+            {{ form_row(contactForm.email) }}
+            {{ form_row(contactForm.message) }}
+            {{ form_row(contactForm.image) }}
+            {{ form_row(contactForm.submit) }}
+        {{ form_end(contactForm) }}
+    </div>
+{% endblock %}
+
