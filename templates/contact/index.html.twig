@@ -1,27 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contactez nous{% endblock %}
+{% block title %}Contactez-nous{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1>Contactez nous</h1>
-        
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+    <div class="container mt-5 py-5">
+        <div class="row justify-content-center">
+            <div class="col-10 mx-auto">
+                <h1 class="text-center mb-4">Contactez-nous</h1>
 
-        {{ form_start(contactForm) }}
-            {{ form_row(contactForm.title) }}
-            {{ form_row(contactForm.sujet) }}
-            {{ form_row(contactForm.email) }}
-            {{ form_row(contactForm.message) }}
-            {{ form_row(contactForm.image) }}
-            {{ form_row(contactForm.submit) }}
-        {{ form_end(contactForm) }}
+                {# Flash-сообщения #}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                <div class="">
+                    <div class="card-body col-md-12">
+                        {{ form_start(contactForm, {'attr': {'class': 'needs-validation'}}) }}
+                        
+                        <div class="mb-3">
+                            {{ form_row(contactForm.title, {'attr': {'class': 'form-control', 'placeholder': 'Titre'}}) }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(contactForm.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Sujet'}}) }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(contactForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre email'}}) }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(contactForm.message, {'attr': {'class': 'form-control', 'rows': '5', 'placeholder': 'Votre message'}}) }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form_row(contactForm.image, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="text-center">
+                            {{ form_row(contactForm.submit, {'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+                        </div>
+
+                        {{ form_end(contactForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

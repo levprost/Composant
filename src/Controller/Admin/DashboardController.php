@@ -61,9 +61,9 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_MODO')) {
             yield MenuItem::section('Messages de Contact', 'fas fa-envelope');
             yield MenuItem::subMenu('Contact', 'fas fa-comment-dots')->setSubItems([
-                MenuItem::linkToCrud('Voir les messages', 'fas fa-eye', Contact::class),
+                MenuItem::linkToCrud('Voir les messages', 'fas fa-eye', Contact::class)
+                    ->setController(ContactCrudController::class), // Ссылка на ваш контроллер
             ]);
-
             yield MenuItem::section('Commentaires', 'fas fa-comments');
             yield MenuItem::subMenu('Commentaires', 'fas fa-comments')->setSubItems([
                 MenuItem::linkToCrud('Créer un commentaire', 'fas fa-plus', Comment::class)->setAction(Crud::PAGE_NEW),
@@ -75,7 +75,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::section('Gestion des Articles', 'fas fa-edit');
             yield MenuItem::subMenu('Articles', 'fas fa-newspaper')->setSubItems([
                 MenuItem::linkToCrud('Voir les articles', 'fas fa-eye', Post::class),
-                MenuItem::linkToCrud('Modifier les articles et Supprimer les articles', 'fas fa-edit', Post::class)->setAction(Crud::PAGE_EDIT)->setPermission('ROLE_ADMIN'),
+                
                 
             ]);
             yield MenuItem::section('Rubriques', 'fas fa-book');

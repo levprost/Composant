@@ -26,6 +26,13 @@
             <li><a class="dropdown-item" href="{{path ('posts_by_rubrik', {id: 6})}}">Alimentation PC</a></li>
           </ul>
         </li>
+        <li class="nav-item">
+            {% if app.user %}
+              <a class="nav-link contact" href="{{ path('contact') }}" style="color:white;">Contactez nous</a>
+            {% else %}
+              <a class="nav-link contact" href="{{ path('app_login') }}" style="color:white;">Contactez nous</a>
+            {% endif %}
+        </li>
       </ul>
 
       <div class="header-social-links">
