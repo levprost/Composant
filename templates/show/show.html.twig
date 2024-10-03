@@ -63,13 +63,21 @@
 
                         <!-- Видео -->
                         <div class="col-12 my-3">
+                            
                             {% if post.video is not empty %}
-                                <div class="ratio ratio-16x9">
-                                    <iframe width="100%" height="500px" 
-                                            src="https://www.youtube.com/embed/{{ post.video|split('?v=')[1] }}" 
-                                            frameborder="0" 
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                            allowfullscreen></iframe>
+                                <div class="youtube_player" 
+                                    videoID="{{ post.video }}" 
+                                    width="100%" 
+                                    height="500px" 
+                                    theme="dark" 
+                                    rel="1" 
+                                    controls="1" 
+                                    showinfo="1" 
+                                    autoplay="0" 
+                                    mute="0" 
+                                    loop="0" 
+                                    loading="1" 
+                                    data-start="start" data-end="end">
                                 </div>
                             {% endif %}
                         </div>
