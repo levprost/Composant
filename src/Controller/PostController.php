@@ -85,5 +85,10 @@ class PostController extends AbstractController
         ]);
         
     }
+    #[Route('/privacy/politique-confidentialite', name: 'politique-confidentialite')]
+    public function politiqueConfidentialite(): Response
+    {
+        return $this->render('privacy/politique_confidentialite.html.twig');
+    }
 
 }
