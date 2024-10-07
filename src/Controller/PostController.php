@@ -28,7 +28,7 @@ class PostController extends AbstractController
     #[Route('/', name: 'app_post')]
     public function index(): Response
     {
-        $posts = $this->repo->findBy(['title' => 'Qui sommes nous?']);
+        $posts = $this->repo->findBy(['title' => 'Bienvenue sur Composants PC – Votre Guide Complet des Composants Informatiques']);
 
         return $this->render('post/index.html.twig',[
             'posts' => $posts, 

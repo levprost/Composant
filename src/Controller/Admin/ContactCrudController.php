@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
@@ -26,6 +27,7 @@ class ContactCrudController extends AbstractCrudController
             TextField::new('email', 'Email'),
             TextareaField::new('message', 'Message')->onlyOnIndex(), // Показываем сообщение только в списке
             DateTimeField::new('createdAt', 'Created At'),
+            ImageField::new('image')
         ];
     }
 

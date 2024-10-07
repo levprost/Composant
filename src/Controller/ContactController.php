@@ -41,12 +41,12 @@ class ContactController extends AbstractController
                 // Перемещение файла в директорию public/divers/contactImage
                 try {
                     $contactFile->move(
-                        $this->getParameter('kernel.project_dir').'/public/divers/contactImage',
+                        $this->getParameter('kernel.project_dir').'/public/divers/contactimage',
                         $newFilename
                     );
                     
                     // Установка пути изображения в объект Contact
-                    $contactMessage->setImage('/divers/contactImage/' . $newFilename);
+                    $contactMessage->setImage('/divers/contactimage/' . $newFilename);
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Ошибка при загрузке файла. Пожалуйста, попробуйте позже.');
                     return $this->redirectToRoute('contact');

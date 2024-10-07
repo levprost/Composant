@@ -3,10 +3,8 @@
 {% block title %}Hello PostController!{% endblock %}
 
 {% block body %}
-{% for posts in posts %}
     <div class="video-background-container">
         <video autoplay muted loop id="background-video">
-            <p>ffffffffffff</p>
             <source src="{{ asset('divers/videos/fontsite.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -65,6 +63,7 @@
         </div>
     </div>
 </div>    
+{% for posts in posts %}
 <div class="content-overlay">
     <div class="container">
         <div class="row">
@@ -73,7 +72,7 @@
             </div>
             <div class="col-12 col-md-8">
                 <!-- Посты -->
-                <h2>{{ posts.title }}</h2>
+                <h2 class=" mt-4">{{ posts.title }}</h2>
 
                 {% if (posts.photo is empty) %}
                                                 
@@ -102,6 +101,12 @@
                 {% else %}
                 <div>
                      <img class="my-3  img-fluid" src="{{asset('divers/images/' ~ posts.benchmark)}}" alt="Mon image"/>
+                </div>
+                {% endif %}
+                {% if (posts.content2 is empty) %}
+                {% else %}
+                <div>
+                      {{ posts.content2|raw }}
                 </div>
                 {% endif %}
             </div>
