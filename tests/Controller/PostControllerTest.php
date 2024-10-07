@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Rubrik;
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -39,7 +40,7 @@ final class PostControllerTest extends WebTestCase
         $user->setCity('Paris');
         $user->setCountry('France');
         $user->setOpption('yes');
-        $user->getRoles('ROLE_MODO');
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
 
         $this->manager->persist($user);
         $this->manager->flush();
@@ -65,10 +66,16 @@ final class PostControllerTest extends WebTestCase
         self::assertPageTitleContains('Post');
     }
 
-    public function testNew(): void
+        public function testNew(): void
     {
         $user = $this->createUser();
         $this->loginUser($user); // Логиним пользователя
+
+        // Создаем рубрику
+        $rubrik = new Rubrik();
+        $rubrik->setName('CPU');
+        $this->manager->persist($rubrik);
+        $this->manager->flush(); // Сначала сохраняем рубрику
 
         $this->client->request('GET', '/admin/?entity=Post&action=new');
 
@@ -77,11 +84,13 @@ final class PostControllerTest extends WebTestCase
         // Отправляем форму добавления нового поста
         $this->client->submitForm('Create', [
             'Post[title]' => 'Test Title',
+            'Post[subtitle]' => 'Test subTitle', // Добавлено поле subtitle
             'Post[content]' => 'This is a test content.',
             'Post[content1]' => 'This is a test content1.',
             'Post[photo]' => 'testphoto.jpg',
             'Post[isPublished]' => true,
             'Post[author]' => $user->getId(), // Устанавливаем автора поста
+            'Post[rubrik]' => $rubrik->getId(), // Устанавливаем рубрику
         ]);
 
         // Проверяем, что после создания происходит редирект на список постов
@@ -89,12 +98,21 @@ final class PostControllerTest extends WebTestCase
 
         // Проверяем, что количество постов в репозитории стало 1
         self::assertSame(1, $this->repository->count([]));
+
+        // Проверяем, что созданный пост имеет правильную рубрику
+        $post = $this->repository->findOneBy(['title' => 'Test Title']);
+        self::assertSame($rubrik->getId(), $post->getRubrik()->getId());
     }
 
     public function testShow(): void
     {
         $user = $this->createUser();
         $this->loginUser($user); // Логиним пользователя
+
+        $rubrik = new Rubrik();
+        $rubrik->setName('CPU');
+        $this->manager->persist($rubrik);
+        $this->manager->flush(); // Сначала сохраняем рубрику
 
         // Создаем пост
         $fixture = new Post();
@@ -105,6 +123,7 @@ final class PostControllerTest extends WebTestCase
         $fixture->setCreatedAt(new \DateTimeImmutable());
         $fixture->setIsPublished(true);
         $fixture->setUser($user); // Устанавливаем автора
+        $fixture->setRubrik($rubrik); // Устанавливаем рубрику
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -121,6 +140,11 @@ final class PostControllerTest extends WebTestCase
         $user = $this->createUser();
         $this->loginUser($user); // Логиним пользователя
 
+        $rubrik = new Rubrik();
+        $rubrik->setName('CPU');
+        $this->manager->persist($rubrik);
+        $this->manager->flush(); // Сначала сохраняем рубрику
+
         // Создаем пост
         $fixture = new Post();
         $fixture->setTitle('Initial Title');
@@ -130,6 +154,7 @@ final class PostControllerTest extends WebTestCase
         $fixture->setCreatedAt(new \DateTimeImmutable());
         $fixture->setIsPublished(true);
         $fixture->setUser($user); // Устанавливаем автора
+        $fixture->setRubrik($rubrik);
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -158,6 +183,11 @@ final class PostControllerTest extends WebTestCase
         $user = $this->createUser();
         $this->loginUser($user); // Логиним пользователя
 
+        $rubrik = new Rubrik();
+        $rubrik->setName('CPU');
+        $this->manager->persist($rubrik);
+        $this->manager->flush(); // Сначала сохраняем рубрику
+
         // Создаем пост
         $fixture = new Post();
         $fixture->setTitle('Title to be deleted');
@@ -167,6 +197,7 @@ final class PostControllerTest extends WebTestCase
         $fixture->setCreatedAt(new \DateTimeImmutable());
         $fixture->setIsPublished(true);
         $fixture->setUser($user); // Устанавливаем автора
+        $fixture->setRubrik($rubrik); // Устанавливаем автор
 
         $this->manager->persist($fixture);
         $this->manager->flush();
