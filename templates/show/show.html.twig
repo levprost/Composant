@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Show {% endblock %}
+{% block title %} {{ post.title }} | Mon Blog {% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta property="og:title" content="{{ post.title }}">
+    <meta property="og:description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta property="og:image" content="{{ asset('divers/images/' ~ post.photo) }}">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ post.title }}">
+    <meta name="twitter:description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta name="twitter:image" content="{{ asset('divers/images/' ~ post.photo) }}">
+{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="container">
-            <div class="row">
+            <article class="row">
                 <!-- Основной контент -->
                 <div class="col-lg-10 col-md-12">
                     <div class="row">
@@ -16,12 +29,12 @@
 
                         <!-- Дата создания -->
                         <div class="col-12 my-3">
-                            {{ post.createdAt|date('D d M Y') }}
+                            <time datetime="{{ post.createdAt|date('c') }}">{{ post.createdAt|date('D d M Y') }}</time>
                         </div>
 
                         <!-- Аватар пользователя и его информация -->
                         <div class="col-12 my-3 d-flex align-items-center">
-                            <img class="roundedImage img-fluid me-3" src="{{ asset('divers/avatars/' ~ post.user.avatar) }}" alt="Avatar" style="width: 50px; height: 50px;"/>
+                            <img class="roundedImage img-fluid me-3" src="{{ asset('divers/avatars/' ~ post.user.avatar) }}" alt="Avatar de {{ post.user.psuedo|capitalize }}" style="width: 50px; height: 50px;"/>
                             <span>{{ post.user.psuedo|capitalize }}</span> &emsp;
                             <span>{{ post.user.city }}</span>
                         </div>
@@ -30,79 +43,85 @@
                         <div class="col-12 my-3">
                             <h2>{{ post.title }}</h2>
                         </div>
+                    </div>
 
+                    <section class="my-3">
                         <!-- Фото поста -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             {% if post.photo is not empty %}
-                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.photo) }}" alt="Mon image"/>
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.photo) }}" alt="{{ post.title }}"/>
                             {% endif %}
                         </div>
 
                         <!-- Контент поста -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             <div class="mb-4">
-                                <h2>{{ post.content|raw }}</h2>
+                                <h3>Description</h3>
+                                <div>{{ post.content|raw }}</div>
                             </div>
                         </div>
 
                         <!-- Дополнительное изображение -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             {% if post.image is not empty %}
-                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.image) }}" alt="Mon image"/>
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.image) }}" alt="Image supplémentaire de {{ post.title }}"/>
                             {% endif %}
                         </div>
 
                         <!-- Дополнительный контент -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             {% if post.content1 is not empty %}
                                 <div class="mb-4">
-                                    <h2>{{ post.content1|raw }}</h2>
+                                    <h3>Contenu supplémentaire</h3>
+                                    <div>{{ post.content1|raw }}</div>
                                 </div>
                             {% endif %}
                         </div>
 
                         <!-- Видео -->
-                        <div class="col-12 my-3">
-                            
+                       <div class="col-12">
                             {% if post.video is not empty %}
-                                <div class="youtube_player" 
-                                    videoID="{{ post.video }}" 
-                                    width="100%" 
-                                    height="500px" 
-                                    theme="dark" 
-                                    rel="1" 
-                                    controls="1" 
-                                    showinfo="1" 
-                                    autoplay="0" 
-                                    mute="0" 
-                                    loop="0" 
-                                    loading="1" 
-                                    data-start="start" data-end="end">
+                                <div class="video-container">
+                                    <div class="youtube_player" 
+                                        videoID="{{ post.video }}" 
+                                        width="100%" 
+                                        height=""
+                                        theme="dark" 
+                                        rel="1" 
+                                        controls="1" 
+                                        showinfo="1" 
+                                        autoplay="0" 
+                                        mute="0" 
+                                        loop="0" 
+                                        loading="1" 
+                                        data-start="start" data-end="end">
+                                    </div>
                                 </div>
                             {% endif %}
                         </div>
 
                         <!-- Бенчмарк -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             {% if post.benchmark is not empty %}
-                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="benchmark"/>
+                                <img class="img-fluid my-3" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="Benchmark de {{ post.title }}"/>
                             {% endif %}
                         </div>
 
                         <!-- Дополнительный контент -->
-                        <div class="col-12 my-3">
+                        <div class="col-12">
                             {% if post.content2 is not empty %}
                                 <div class="mb-4">
-                                    <h2>{{ post.content2|raw }}</h2>
+                                    <h3>Contenu additionnel</h3>
+                                    <div>{{ post.content2|raw }}</div>
                                 </div>
                             {% endif %}
                         </div>
 
-                        <!-- Блок с другими постами (перемещён) -->
+                        <!-- Блок с другими постами -->
                         <div class="col-12 my-4">
                             <div class="row">
                                 <div class="col-12">
-                                    <h3 class="mb-3">Aussi dans  {{ post.rubrik.name|capitalize }}</h3>
+                                    <h3 class="mb-3">Aussi dans {{ post.rubrik.name|capitalize }}</h3>
                                 </div>
                                 <div class="row m-2 p-2" style="border-bottom: solid 2px; justify-content:center;">
                                     {% for posts2 in posts2 %}
@@ -111,7 +130,7 @@
                                                 <h5>{{ posts2.title }}</h5>
                                             </a>
                                             <a href="{{ path('show', {id: posts2.id}) }}">
-                                                <img class="img-fluid my-3 d-flex imgPosts2" src="{{ asset('divers/images/' ~ posts2.photo) }}" alt="Mon image"/>
+                                                <img class="img-fluid my-3 d-flex imgPosts2" src="{{ asset('divers/images/' ~ posts2.photo) }}" alt="Image de {{ posts2.title }}"/>
                                             </a>
                                         </div>
                                     {% endfor %}
@@ -145,13 +164,12 @@
 
                         <!-- Отображение комментариев -->
                         <div class="col-12">
-                            
                             <div id="comments-container" style="display: block;">
                                 {% for comment in comments %}
                                     <div class="comment mb-4 p-3 rounded shadow-sm">
                                         <div class="row">
                                             <div class="col-2 col-md-1 d-flex align-items-center">
-                                                <img class="img-fluid rounded-circle imgkx" src="{{ asset('divers/avatars/' ~ comment.user.avatar) }}" alt="avatar"/>
+                                                <img class="img-fluid rounded-circle imgkx" src="{{ asset('divers/avatars/' ~ comment.user.avatar) }}" alt="Avatar de {{ comment.user.psuedo|capitalize }}"/>
                                             </div>
                                             <div class="col-8 col-md-9 d-flex align-items-center">
                                                 <strong class="userName">{{ comment.user.psuedo|capitalize }}</strong>
@@ -165,10 +183,9 @@
                                 {% endfor %}
                             </div>
                         </div>
-
-                    </div> <!-- Закрытие row -->
-                </div> <!-- Закрытие col-lg-8 -->
-            </div> <!-- Закрытие row -->
+                    </section>
+                </div> <!-- Закрытие col-lg-10 -->
+            </article>
         </div> <!-- Закрытие container -->
     </div>
 

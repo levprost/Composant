@@ -8,3 +8,12 @@
     text-decoration: none;
     color: white;
 }
+.youtube_player{
+    height: 500px;
+} 
+@media (max-width: 992px) {
+    /* Скрыть карточки и видео */
+    .youtube_player {
+        display: none;
+    }
+}

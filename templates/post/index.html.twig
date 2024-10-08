@@ -1,55 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PostController!{% endblock %}
+{% block title %}{{ posts[0].title }} - Actualités Tech{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{{ posts[0].subtitle }}">
+    <meta name="keywords" content="cartes graphiques, CPU, PC, matériel, composants">
+    <meta property="og:title" content="{{ posts[0].title }}" />
+    <meta property="og:description" content="{{ posts[0].subtitle }}" />
+    <meta property="og:image" content="{{ asset('divers/images/' ~ posts[0].photo) }}" />
+    <meta property="og:url" content="{{ path('posts_by_rubrik', {id: posts[0].rubrik.id}) }}" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ posts[0].title }}">
+    <meta name="twitter:description" content="{{ posts[0].subtitle }}">
+    <meta name="twitter:image" content="{{ asset('divers/images/' ~ posts[0].photo) }}">
+{% endblock %}
 
 {% block body %}
-    <div class="video-background-container">
-        <video autoplay muted loop id="background-video">
-            <source src="{{ asset('divers/videos/fontsite.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+<div class="video-background-container">
+    <video autoplay muted loop id="background-video">
+        <source src="{{ asset('divers/videos/fontsite.mp4') }}" type="video/mp4">
+        Votre navigateur ne prend pas en charge la balise vidéo.
+    </video>
+</div>
 
-<!-- Контент -->
+<!-- Contenu -->
 <div class="container-fluid overlay-cards">
     <div class="row">
         <div class="col-md-4 col-sm-6 mb-4">
-            <a href="{{path ('posts_by_rubrik', {id: 1})}}" class="card-link">
+            <a href="{{ path('posts_by_rubrik', {id: 1}) }}" class="card-link">
                 <div class="card">
-                    <h3>Cartes graphiques</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/carte-graphique.png') }}" class="card-img-top" alt="Carte graphique"/>
+                    <h2>Cartes graphiques</h2>
+                    <img class="img-rubrik" src="{{ asset('divers/images/carte-graphique.png') }}" class="card-img-top" alt="Carte graphique - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-6 mb-4">
             <a href="{{ path('posts_by_rubrik', {id: 2}) }}" class="card-link">
                 <div class="card">
-                    <h3>Carte mère</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/carte-mere.png') }}" class="card-img-top" alt="Carte mère"/>
+                    <h2>Carte mère</h2>
+                    <img class="img-rubrik" src="{{ asset('divers/images/carte-mere.png') }}" class="card-img-top" alt="Carte mère - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-6 mb-4">
             <a href="{{ path('posts_by_rubrik', {id: 3}) }}" class="card-link">
                 <div class="card">
-                    <h3>CPU</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/tour-cpu.png') }}" class="card-img-top" alt="Tour CPU"/>
+                    <h2>CPU</h2>
+                    <img class="img-rubrik" src="{{ asset('divers/images/tour-cpu.png') }}" class="card-img-top" alt="CPU - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-6 mb-4">
             <a href="{{ path('posts_by_rubrik', {id: 4}) }}" class="card-link">
                 <div class="card">
-                    <h3>Stockage</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/ssd.png') }}" class="card-img-top" alt="SSD"/>
+                    <h2>Stockage</h2>
+                    <img class="img-rubrik" src="{{ asset('divers/images/ssd.png') }}" class="card-img-top" alt="SSD - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-6 mb-4">
             <a href="{{ path('posts_by_rubrik', {id: 5}) }}" class="card-link">
                 <div class="card">
-                    <h3>Mémoire</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/ram.png') }}" class="card-img-top" alt="RAM"/>
+                    <h2>Mémoire</h2>
+                    <img class="img-rubrik" src="{{ asset('divers/images/ram.png') }}" class="card-img-top" alt="RAM - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
@@ -57,62 +70,67 @@
             <a href="{{ path('posts_by_rubrik', {id: 6}) }}" class="card-link">
                 <div class="card">
                     <h3>Alimentation PC</h3>
-                    <img class="img-rubrik" src="{{ asset('divers/images/bloc-dalimentation.png') }}" class="card-img-top" alt="Bloc d'alimentation"/>
+                    <img class="img-rubrik" src="{{ asset('divers/images/bloc-dalimentation.png') }}" class="card-img-top" alt="Bloc d'alimentation - Nouvelles et critiques" />
                 </div>
             </a>
         </div>
     </div>
 </div>    
-{% for posts in posts %}
+
+{% for post in posts %}
 <div class="content-overlay">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-2">
-                <!-- Левый контент -->
+                <!-- Contenu à gauche -->
             </div>
             <div class="col-12 col-md-8">
-                <!-- Посты -->
-                <h2 class=" mt-4">{{ posts.title }}</h2>
+                <!-- Posts -->
+                <article>
+                    <header>
+                        <h1 class="mt-4">{{ post.title }}</h1>
+                        <p>{{ post.subtitle }}</p>
+                    </header>
 
-                {% if (posts.photo is empty) %}
-                                                
-                                                
-                {% else %}
+                    {% if post.photo is not empty %}
+                        <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.photo) }}" alt="{{ post.title }} - Image" />
+                    {% endif %}
 
-                    <img class="my-3  img-fluid" src="{{asset('divers/images/' ~ posts.photo)}}" alt="Mon image"/>
-                                                
-                {% endif %}
-                <div>
-                    {{ posts.content|raw }}
-                </div>
-                {% if (posts.video is empty) %}
-                    {% else %}
-                    <iframe width="100%" height="315" 
-                        src="https://www.youtube.com/embed/{{ posts.video|split('?v=')[1] }}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                {% endif %}
-                <div class="mt-4">
-                    {{ posts.content1|raw }}
-                </div>
-                {% if (posts.image is empty) %}
-                {% else %}
-                <div>
-                     <img class="my-3  img-fluid" src="{{asset('divers/images/' ~ posts.benchmark)}}" alt="Mon image"/>
-                </div>
-                {% endif %}
-                {% if (posts.content2 is empty) %}
-                {% else %}
-                <div>
-                      {{ posts.content2|raw }}
-                </div>
-                {% endif %}
+                    <section>
+                        <h2>Description</h2>
+                        <div>{{ post.content|raw }}</div>
+                    </section>
+
+                    {% if post.video is not empty %}
+                        <h2>Vidéo</h2>
+                        <iframe width="100%" height="315" 
+                            src="https://www.youtube.com/embed/{{ post.video|split('?v=')[1] }}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    {% endif %}
+                    
+                    <section>
+                        <h2>Contenu supplémentaire</h2>
+                        <div class="mt-4">
+                            {{ post.content1|raw }}
+                        </div>
+                        {% if post.image is not empty %}
+                            <div>
+                                <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="Image de benchmark pour {{ post.title }}" />
+                            </div>
+                        {% endif %}
+                        {% if post.content2 is not empty %}
+                            <div>
+                                {{ post.content2|raw }}
+                            </div>
+                        {% endif %}
+                    </section>
+                </article>
             </div>
         </div>
     </div>
 </div>
-
 {% endfor %}
 {% endblock %}

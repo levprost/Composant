@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Rubrik;
+use PHPUnit\Framework\TestCase;
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
