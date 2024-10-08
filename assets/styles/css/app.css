@@ -34,7 +34,6 @@ a.title:hover{
     text-align: center;
 }
 .overlay-cards {
-    margin: 25px;
     position: absolute;
     display: flex;
     top: 10%;
@@ -56,13 +55,17 @@ a.title:hover{
 .card:hover {
     transform: scale(1.05); /* Легкое увеличение при наведении */
 }
-.card h3 {
+.card h2 {
     margin: 0 0 10px;
     font-size: 1.5em;
 }
 
 .card p {
     margin: 0; 
+}
+.card-rubrik{
+    justify-content: center;
+    display: flex;
 }
 .video-background-container {
     position: fixed;

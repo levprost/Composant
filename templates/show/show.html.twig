@@ -85,7 +85,7 @@
                                     <div class="youtube_player" 
                                         videoID="{{ post.video }}" 
                                         width="100%" 
-                                        height=""
+                                        height="100%"
                                         theme="dark" 
                                         rel="1" 
                                         controls="1" 
@@ -189,15 +189,5 @@
         </div> <!-- Закрытие container -->
     </div>
 
-    <script>
-        document.getElementById('toggle-comment-form').addEventListener('click', function() {
-            var formContainer = document.getElementById('comment-form-container');
-            formContainer.style.display = formContainer.style.display === 'none' || formContainer.style.display === '' ? 'block' : 'none';
-        });
 
-        document.getElementById('toggle-comments').addEventListener('click', function() {
-            var commentsContainer = document.getElementById('comments-container');
-            commentsContainer.style.display = commentsContainer.style.display === 'none' || commentsContainer.style.display === '' ? 'block' : 'none';
-        });
-    </script>
 {% endblock %}
