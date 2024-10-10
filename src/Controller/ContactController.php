@@ -48,7 +48,7 @@ class ContactController extends AbstractController
                     // Установка пути изображения в объект Contact
                     $contactMessage->setImage('/divers/contactimage/' . $newFilename);
                 } catch (\Exception $e) {
-                    $this->addFlash('error', 'Ошибка при загрузке файла. Пожалуйста, попробуйте позже.');
+                    $this->addFlash('error', 'Erreur lors du téléchargement du fichier. Essayer plus tard.');
                     return $this->redirectToRoute('contact');
                 }
             }
@@ -58,7 +58,7 @@ class ContactController extends AbstractController
             $entityManager->flush();
 
             // Добавление сообщения об успешной отправке
-            $this->addFlash('success', 'Ваше сообщение было успешно отправлено.');
+            $this->addFlash('success', 'Votre message a été envoyé avec succès.');
 
             return $this->redirectToRoute('contact');
         }

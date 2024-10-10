@@ -11,10 +11,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PostCrudController extends AbstractCrudController
 {
@@ -22,9 +24,12 @@ class PostCrudController extends AbstractCrudController
     {
         return Post::class;
     }
-
+    
     public function configureFields(string $pageName): iterable
     {
+        if (!$this->isGranted('ROLE_EDITOR')) {
+            throw new AccessDeniedException('Access Denied. You do not have permission to access this area.');
+        }
         return [
             IntegerField::new('id')->onlyOnIndex(),
             TextField::new('title')->setColumns('col-md-6'),

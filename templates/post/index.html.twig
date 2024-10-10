@@ -36,6 +36,8 @@
             {id: 5, name: 'Mémoire', image: 'ram.png'},
             {id: 6, name: 'Alimentation PC', image: 'bloc-dalimentation.png'}
         ] %}
+         <!-- Boucle `for` dans Twig qui itère à travers chaque catégorie (cartes graphiques, carte mère, etc.). 
+             Pour chaque catégorie, un objet est défini avec un `id`, un `name` et un chemin vers l'image correspondante. -->
             <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
                 <a href="{{ path('posts_by_rubrik', {id: category.id}) }}" class="card-link">
                     <div class="card">

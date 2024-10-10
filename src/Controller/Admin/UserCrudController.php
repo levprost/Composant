@@ -5,12 +5,16 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use Symfony\Component\Intl\Countries;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -20,6 +24,9 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw new AccessDeniedException('Access Denied. You do not have permission to access this area.');
+        }
         $countries = Countries::getNames('fr');
         return [
             TextField::new('email', 'Email'), // Поле для email

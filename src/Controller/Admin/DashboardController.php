@@ -16,6 +16,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class DashboardController extends AbstractDashboardController
 {
@@ -29,6 +32,16 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        $content = "you need to be an admin";
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new AccessDeniedException('Access Denied. You do not have permission to access this area.');
+        }
+        
+        if ($user->getOpption() !== 'yes') {
+            return new Response($content, 403);
+        }
+
         if ($this->isGranted('ROLE_EDITOR')) {
             return $this->render('admin/dashboard.html.twig');
         } else {
@@ -46,10 +59,21 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+       
+        $content = "you need to be an admin";
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new AccessDeniedException('Access Denied. You do not have permission to access this area.');
+        }
+
+        // Проверка на доступ по 'option'
+        if ($user->getOpption() !== 'yes') {
+            return new Response($content, 403);
+        }
         // Переход на сайт
         yield MenuItem::linkToRoute('Aller sur le site', 'fas fa-arrow-left', 'app_post');
 
-        //  (ROLE_EDITOR)
+        // (ROLE_EDITOR)
         if ($this->isGranted('ROLE_EDITOR')) {
             yield MenuItem::section('Articles', 'fas fa-pencil-alt');
             yield MenuItem::subMenu('Crées les articles', 'fas fa-blog')->setSubItems([
@@ -62,11 +86,10 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::section('Messages de Contact', 'fas fa-envelope');
             yield MenuItem::subMenu('Contact', 'fas fa-comment-dots')->setSubItems([
                 MenuItem::linkToCrud('Voir les messages', 'fas fa-eye', Contact::class)
-                    ->setController(ContactCrudController::class), // Ссылка на ваш контроллер
+                    ->setController(ContactCrudController::class),
             ]);
             yield MenuItem::section('Commentaires', 'fas fa-comments');
             yield MenuItem::subMenu('Commentaires', 'fas fa-comments')->setSubItems([
-                MenuItem::linkToCrud('Créer un commentaire', 'fas fa-plus', Comment::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Voir les commentaires', 'fas fa-eye', Comment::class),
             ]);
         }
@@ -75,8 +98,6 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::section('Gestion des Articles', 'fas fa-edit');
             yield MenuItem::subMenu('Articles', 'fas fa-newspaper')->setSubItems([
                 MenuItem::linkToCrud('Voir les articles', 'fas fa-eye', Post::class),
-                
-                
             ]);
             yield MenuItem::section('Rubriques', 'fas fa-book');
             yield MenuItem::subMenu('Rubriques', 'fas fa-book-open')->setSubItems([
@@ -85,7 +106,6 @@ class DashboardController extends AbstractDashboardController
             ]);
         }
 
-        // Пункт меню для супер администратора (ROLE_SUPER_ADMIN)
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             yield MenuItem::section('Utilisateurs', 'fas fa-user');
             yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
@@ -111,3 +131,4 @@ class DashboardController extends AbstractDashboardController
             ]);
     }
 }
+

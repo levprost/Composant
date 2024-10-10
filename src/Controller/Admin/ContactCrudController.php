@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contact;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -21,6 +22,9 @@ class ContactCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        if (!$this->isGranted('ROLE_MODO')) {
+            throw new AccessDeniedException('Access Denied. You do not have permission to access this area.');
+        }
         return [
             TextField::new('title', 'Title'),
             TextField::new('sujet', 'Sujet'),

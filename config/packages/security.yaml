@@ -41,7 +41,8 @@ security:
     access_control:
         - { path: ^/admin/, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin/rubrik', roles: ROLE_ADMIN }
-        - { path: '^/admin/ingredient', roles: ROLE_MODO }
+        - { path: '^/admin/contact', roles: ROLE_MODO }
+        - { path: '^/admin/comment', roles: ROLE_MODO }
         - { path: '^/admin/posts', roles: ROLE_EDITOR }  
         - { path: '^/post', roles: ROLE_USER }
 
