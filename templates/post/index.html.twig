@@ -1,23 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ posts[0].title }} - Actualités Tech{% endblock %}
+{% block title %}Actualités Tech{% endblock %}
 
 {% block meta %}
-    <meta name="description" content="{{ posts[0].subtitle }}">
-    <meta name="keywords" content="cartes graphiques, CPU, PC, matériel, composants">
-    <meta property="og:title" content="{{ posts[0].title }}" />
-    <meta property="og:description" content="{{ posts[0].subtitle }}" />
-    <meta property="og:image" content="{{ asset('divers/images/' ~ posts[0].photo) }}" />
-    <meta property="og:url" content="{{ path('posts_by_rubrik', {id: posts[0].rubrik.id}) }}" />
+    <meta name="description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta property="og:title" content="{{ post.title }}">
+    <meta property="og:description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta property="og:image" content="{{ asset('divers/images/' ~ post.photo) }}">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:locale" content="fr_FR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ posts[0].title }}">
-    <meta name="twitter:description" content="{{ posts[0].subtitle }}">
-    <meta name="twitter:image" content="{{ asset('divers/images/' ~ posts[0].photo) }}">
+    <meta name="twitter:title" content="{{ post.title }}">
+    <meta name="twitter:description" content="{{ post.subtitle | striptags | slice(0, 150) ~ '...' }}">
+    <meta name="twitter:image" content="{{ asset('divers/images/' ~ post.photo) }}">
 {% endblock %}
+
+
 
 {% block body %}
 <div class="video-background-container">
-    <video autoplay muted loop id="background-video">
+    <video autoplay muted loop id="background-video" preload="auto">
         <source src="{{ asset('divers/videos/fontsite.mp4') }}" type="video/mp4">
         Votre navigateur ne prend pas en charge la balise vidéo.
     </video>
@@ -26,54 +28,23 @@
 <!-- Contenu -->
 <div class="container-fluid overlay-cards">
     <div class="row mt-5">
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 1}) }}" class="card-link">
-                <div class="card">
-                    <h2>Cartes graphiques</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/carte-graphique.png') }}" class="card-img-top" alt="Carte graphique - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 2}) }}" class="card-link">
-                <div class="card">
-                    <h2>Carte mère</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/carte-mere.png') }}" class="card-img-top" alt="Carte mère - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 3}) }}" class="card-link">
-                <div class="card">
-                    <h2>CPU</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/tour-cpu.png') }}" class="card-img-top" alt="CPU - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 4}) }}" class="card-link">
-                <div class="card">
-                    <h2>Stockage</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/ssd.png') }}" class="card-img-top" alt="SSD - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 5}) }}" class="card-link">
-                <div class="card">
-                    <h2>Mémoire</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/ram.png') }}" class="card-img-top" alt="RAM - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
-            <a href="{{ path('posts_by_rubrik', {id: 6}) }}" class="card-link">
-                <div class="card">
-                    <h2>Alimentation PC</h2>
-                    <img class="img-rubrik" src="{{ asset('divers/images/bloc-dalimentation.png') }}" class="card-img-top" alt="Bloc d'alimentation - Nouvelles et critiques" />
-                </div>
-            </a>
-        </div>
+        {% for category in [
+            {id: 1, name: 'Cartes graphiques', image: 'carte-graphique.png'},
+            {id: 2, name: 'Carte mère', image: 'carte-mere.png'},
+            {id: 3, name: 'CPU', image: 'tour-cpu.png'},
+            {id: 4, name: 'Stockage', image: 'ssd.png'},
+            {id: 5, name: 'Mémoire', image: 'ram.png'},
+            {id: 6, name: 'Alimentation PC', image: 'bloc-dalimentation.png'}
+        ] %}
+            <div class="col-md-4 col-sm-6 mb-4 card-rubrik">
+                <a href="{{ path('posts_by_rubrik', {id: category.id}) }}" class="card-link">
+                    <div class="card">
+                        <h2>{{ category.name }}</h2>
+                        <img class="img-rubrik" src="{{ asset('divers/images/' ~ category.image) }}" class="card-img-top" alt="{{ category.name }} - Nouvelles et critiques" loading="lazy" />
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </div>    
 
@@ -93,7 +64,7 @@
                     </header>
 
                     {% if post.photo is not empty %}
-                        <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.photo) }}" alt="{{ post.title }} - Image" />
+                        <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.photo) }}" alt="{{ post.title }} - Image" loading="lazy" width="800" height="450" />
                     {% endif %}
 
                     <section>
@@ -107,7 +78,7 @@
                             src="https://www.youtube.com/embed/{{ post.video|split('?v=')[1] }}" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
+                            allowfullscreen loading="lazy">
                         </iframe>
                     {% endif %}
                     
@@ -116,9 +87,9 @@
                         <div class="mt-4">
                             {{ post.content1|raw }}
                         </div>
-                        {% if post.image is not empty %}
+                        {% if post.benchmark is not empty %}
                             <div>
-                                <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="Image de benchmark pour {{ post.title }}" />
+                                <img class="my-3 img-fluid" src="{{ asset('divers/images/' ~ post.benchmark) }}" alt="Image de benchmark pour {{ post.title }}" loading="lazy" />
                             </div>
                         {% endif %}
                         {% if post.content2 is not empty %}

@@ -35,12 +35,12 @@ class UserCrudController extends AbstractCrudController
                 ->setBasePath('divers/avatars')
                 ->setSortable(false)
                 ->setFormTypeOption('required', false)->setColumns('col-md-8'),
-            ChoiceField::new('roles', 'Роли')
+            ChoiceField::new('roles', 'Roles')
                 ->setChoices([ // LES LISTES DES ROLES
                         'Super Admin' => 'ROLE_SUPER_ADMIN',
                         'Admin' => 'ROLE_ADMIN',
                         'Moderator' => 'ROLE_MODO',
-                        'User' => 'ROLE_EDITOR',
+                        'Editor' => 'ROLE_EDITOR',
                     ])
                 ->allowMultipleChoices(true)
                 ->renderExpanded(true) // Отображаем как список чекбоксов (можно убрать, если не нужно)

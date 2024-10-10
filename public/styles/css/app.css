@@ -1,0 +1,118 @@
+/* === Styles pour les images et liens === */
+.imgPost2 {
+    display: flex;
+    width: 90%;
+    height: fit-content;
+}
+a.title:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.img-rubrik {
+    width: 70%;
+    align-self: center;
+}
+
+.roundedImage {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+/* === Styles pour les cartes (cards) et les rubriques === */
+.overlay-cards > .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+}
+
+.card-link {
+    text-decoration: none;
+    margin: 10px;
+    text-align: center;
+}
+
+.overlay-cards {
+    position: absolute;
+    display: flex;
+    top: 10%;
+    justify-content: center;
+    z-index: 1; /* Les cartes au-dessus de la vidéo */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.781); /* Fond semi-transparent */
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    max-width: 250px;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Agrandissement léger au survol */
+}
+
+.card h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+}
+
+.card p {
+    margin: 0;
+}
+
+.card-rubrik {
+    justify-content: center;
+    display: flex;
+}
+
+/* === Vidéo de fond (Background video) === */
+.video-background-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh; /* Vidéo occupant toute la hauteur de l'écran */
+    overflow: hidden;
+    z-index: -1; /* Vidéo derrière le contenu */
+}
+
+#background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajustement de la vidéo pour remplir le conteneur */
+    pointer-events: none; /* La vidéo ne bloque pas les clics */
+}
+
+/* === Contenu superposé (Content overlay) === */
+.content-overlay {
+    position: relative;
+    z-index: 1;
+    background: rgb(37, 37, 37);
+    color: white;
+    padding-bottom: 200px;
+}
+
+/* === Effet de dégradé pour la vidéo de fond === */
+.video-background-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    z-index: 1;
+}
+
+/* === Responsive (Adaptation pour petits écrans) === */
+@media (max-width: 992px) {
+    .overlay-cards,
+    .video-background-container {
+        display: none; /* Masquer les cartes et la vidéo sur les petits écrans */
+    }
+}

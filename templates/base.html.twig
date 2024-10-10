@@ -1,95 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <!-- SEO: Open Graph pour partage -->
+    <meta name="description" content="Composant PC">
+    <meta property="og:title" content="Composants d'ordinateur - Cartes graphiques, CPU, SSD et plus">
+    <meta property="og:description" content="Explorez notre sélection de composants d'ordinateur et obtenez des conseils pour améliorer votre PC.">
+    <meta property="og:image" content="https://www.votresite.com/images/ordinateur.png">
+    <meta property="og:url" content="https://www.votresite.com/composants">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+
+    <title>{% block title %}Composants d'ordinateur - Cartes graphiques, CPU, SSD et plus{% endblock %}</title>
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <!-- FONT-AWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- BS5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
-    {% block stylesheets %}
-    {% endblock %}
+    <!-- Используйте preload для шрифтов и стилей, чтобы избежать блокировки отображения -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Загрузите стили только при необходимости -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-    {% endblock %}
+    <!-- Загрузите Bootstrap с использованием CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('styles/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/css/comment.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/css/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/css/contact.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/css/rubrik.css') }}">
 
+
+    <!-- Убедитесь, что критические CSS находятся в верхней части документа -->
+   
     <!-- ==SCRIPT DE COOKIE== -->
-   <script src="{{ asset('tarteaucitron/tarteaucitron.js') }}"></script>
+    <script src="{{ asset('tarteaucitron/tarteaucitron.js') }}"></script>
     <script type="text/javascript">
         tarteaucitron.init({
             "privacyUrl": "/privacy/politique-confidentialite",
-            "bodyPosition": "bottom", /* or top to bring it as first element for accessibility */
-
-            "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
-            "cookieName": "tarteaucitron", /* Cookie name */
-        
-            "orientation": "middle", /* Banner position (top - bottom) */
-        
-            "groupServices": false, /* Group services by category */
-            "showDetailsOnClick": true, /* Click to expand the description */
-            "serviceDefaultState": "wait", /* Default state (true - wait - false) */
-                            
-            "showAlertSmall": false, /* Show the small banner on bottom right */
-            "cookieslist": false, /* Show the cookie list */
-                            
-            "closePopup": false, /* Show a close X on the banner */
-
-            "showIcon": true, /* Show cookie icon to manage cookies */
-            //"iconSrc": "", /* Optionnal: URL or base64 encoded image */
-            "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
-
-            "adblocker": false, /* Show a Warning if an adblocker is detected */
-                            
-            "DenyAllCta" : true, /* Show the deny all button */
-            "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
-            "highPrivacy": true, /* HIGHLY RECOMMENDED Disable auto consent */
-            "alwaysNeedConsent": false, /* Ask the consent for "Privacy by design" services */
-                            
-            "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
-
-            "removeCredit": false, /* Remove credit link */
-            "moreInfoLink": true, /* Show more info link */
-
-            "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
-            "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
-
-            //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
-                            
-            "readmoreLink": "", /* Change the default readmore link */
-
-            "mandatory": true, /* Show a message about mandatory cookies */
-            "mandatoryCta": true, /* Show the disabled accept button when mandatory on */
-        
-            //"customCloserId": "", /* Optional a11y: Custom element ID used to open the panel */
-            
-            "googleConsentMode": true, /* Enable Google Consent Mode v2 for Google ads and GA4 */
-            
-            "partnersList": false /* Show the number of partners on the popup/middle banner */
+            "bodyPosition": "bottom",
+            "hashtag": "#tarteaucitron",
+            "cookieName": "tarteaucitron",
+            "orientation": "middle",
+            "groupServices": false,
+            "showDetailsOnClick": true,
+            "serviceDefaultState": "wait",
+            "showAlertSmall": false,
+            "cookieslist": false,
+            "closePopup": false,
+            "showIcon": true,
+            "iconPosition": "BottomRight",
+            "adblocker": false,
+            "DenyAllCta": true,
+            "AcceptAllCta": true,
+            "highPrivacy": true,
+            "alwaysNeedConsent": false,
+            "handleBrowserDNTRequest": false,
+            "removeCredit": false,
+            "moreInfoLink": true,
+            "useExternalCss": false,
+            "useExternalJs": false,
+            "mandatory": true,
+            "mandatoryCta": true,
+            "googleConsentMode": true,
+            "partnersList": false
         });
-
-        // Add the YouTube service to the job list for tarteaucitron
     </script>
-     <!-- ==FIN SCRIPT DE COOKIE== -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <!-- ==FIN SCRIPT DE COOKIE== -->
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" async></script>
 </head>
-    <body>
-        {{ include('elements/header.html.twig') }}
-        {% block body %}{% endblock %}
-        {{ include('elements/footer.html.twig') }}
-            <script type="text/javascript">
+<body>
+    {{ include('elements/header.html.twig') }}
+    {% block body %}{% endblock %}
+    {{ include('elements/footer.html.twig') }}
+    <script type="text/javascript">
         (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
-        </script>
-    </body>
+    </script>
+</body>
 </html>
+

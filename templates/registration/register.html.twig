@@ -36,14 +36,19 @@
                 <div class="mb-3">
                     {{ form_widget(registrationForm.avatar, {attr:{class:'form-control', type:'file', mapped:'false'}}) }}
                 </div>
+                <p class="mb-3">*Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule,8 caracters minimum et un chiffre</p>
                 <div class="mb-3">
                     {{ form_widget(registrationForm.plainPassword, {label: 'Password', attr:{class:'form-control', placeholder: 'Entrez votre password'}
                         
                     }) }}
                 </div>
                 <div class="mb-3">
-                    <label class="form-check-label">RGPD</label>
+                    <label class="form-check-label"></label>
                     {{ form_widget(registrationForm.agreeTerms, {attr: {class: 'form-check-label'}}) }}
+                     <small class="form-text text-muted">
+                            En acceptant, vous confirmez que vos données seront sauvegardées dans notre base de données en conformité avec le <strong>RGPD</strong>.
+                            Vous pouvez supprimez vos données en envoyant un message <strong><a href="{{ path('contact') }}">ici.</a></strong>
+                    </small>
                 </div>
                     
                 
